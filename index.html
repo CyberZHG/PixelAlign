@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Align</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%236366f1'/><rect x='2' y='2' width='5' height='5' fill='%23fff'/><rect x='9' y='9' width='5' height='5' fill='%23fff'/></svg>"
+    />
+    <script type="module" crossorigin src="/PixelAlign/assets/index-B87KYXmI.js"></script>
+    <link rel="stylesheet" crossorigin href="/PixelAlign/assets/index-Ci0-XEZI.css">
+  </head>
+  <body>
+    <div id="app" class="flex min-h-full flex-col">
+      <header
+        class="panel flex items-center justify-between gap-4 px-4 py-3 sm:px-6"
+        style="border-left: 0; border-right: 0; border-top: 0"
+      >
+        <div class="flex items-center gap-3">
+          <div>
+            <h1 class="text-base font-semibold leading-tight">
+              <a href="https://github.com/CyberZHG/PixelAlign">Pixel Align</a>
+            </h1>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="langToggle" class="btn rounded-md px-3 py-1.5 text-sm font-medium" type="button">EN</button>
+          <button id="themeToggle" class="btn rounded-md p-2" type="button" aria-label="theme">
+            <svg
+              id="iconMoon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg
+              id="iconSun"
+              class="hidden"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="flex flex-1 flex-col gap-4 p-4 sm:p-6 lg:flex-row">
+        <aside class="panel flex w-full flex-col gap-5 rounded-xl p-4 lg:w-80 lg:shrink-0">
+          <div>
+            <label
+              id="dropZone"
+              class="checkerboard flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-4 py-6 text-center text-sm"
+              style="border-color: var(--border); color: var(--muted)"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <path d="M17 8l-5-5-5 5" />
+                <path d="M12 3v12" />
+              </svg>
+              <span data-i18n="dropHint"></span>
+              <input id="fileInput" type="file" accept="image/*" class="hidden" />
+            </label>
+          </div>
+
+          <section class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-semibold" data-i18n="grid"></h2>
+              <button
+                id="btnAuto"
+                class="btn rounded-md px-2.5 py-1 text-xs font-medium"
+                type="button"
+                data-i18n="autoDetect"
+                disabled
+              ></button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+                <span data-i18n="cellW"></span>
+                <input
+                  id="inCellW"
+                  type="number"
+                  min="1"
+                  step="0.25"
+                  class="field rounded-md px-2 py-1 text-sm"
+                  style="color: var(--ink)"
+                  disabled
+                />
+              </label>
+              <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+                <span data-i18n="cellH"></span>
+                <input
+                  id="inCellH"
+                  type="number"
+                  min="1"
+                  step="0.25"
+                  class="field rounded-md px-2 py-1 text-sm"
+                  style="color: var(--ink)"
+                  disabled
+                />
+              </label>
+              <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+                <span data-i18n="offsetX"></span>
+                <input
+                  id="inOffX"
+                  type="number"
+                  step="0.25"
+                  class="field rounded-md px-2 py-1 text-sm"
+                  style="color: var(--ink)"
+                  disabled
+                />
+              </label>
+              <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+                <span data-i18n="offsetY"></span>
+                <input
+                  id="inOffY"
+                  type="number"
+                  step="0.25"
+                  class="field rounded-md px-2 py-1 text-sm"
+                  style="color: var(--ink)"
+                  disabled
+                />
+              </label>
+            </div>
+
+            <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+              <span data-i18n="sampling"></span>
+              <select id="selSample" class="field rounded-md px-2 py-1 text-sm" style="color: var(--ink)" disabled>
+                <option value="average" data-i18n="average" selected></option>
+                <option value="dominant" data-i18n="dominant"></option>
+                <option value="center" data-i18n="center"></option>
+              </select>
+            </label>
+
+            <label class="flex items-center gap-2 text-sm">
+              <input id="chkGrid" type="checkbox" checked class="h-4 w-4" style="accent-color: var(--accent)" />
+              <span data-i18n="showGrid"></span>
+            </label>
+
+            <button
+              id="btnMeasure"
+              class="btn rounded-md px-3 py-1.5 text-sm font-medium"
+              type="button"
+              data-i18n="measure"
+              disabled
+            ></button>
+
+            <label class="flex items-center gap-2 text-sm">
+              <input id="chkRefine" type="checkbox" class="h-4 w-4" style="accent-color: var(--accent)" disabled />
+              <span data-i18n="refine"></span>
+            </label>
+            <label id="refineRangeWrap" class="flex-col gap-1 text-xs" style="display: none; color: var(--muted)">
+              <span
+                ><span data-i18n="refineRange"></span>:
+                <span id="refineValue" class="font-mono" style="color: var(--ink)">30%</span></span
+              >
+              <input id="rangeRefine" type="range" min="10" max="50" value="30" class="w-full" />
+            </label>
+          </section>
+
+          <section class="flex flex-col gap-3">
+            <h2 class="text-sm font-semibold" data-i18n="colors"></h2>
+            <div class="flex flex-col gap-1.5 text-xs" style="color: var(--muted)">
+              <div class="flex items-center justify-between gap-2">
+                <span data-i18n="targetColors"></span>
+                <input
+                  id="numColors"
+                  type="number"
+                  min="2"
+                  step="1"
+                  value="2"
+                  class="field rounded-md px-2 py-1 text-right text-sm"
+                  style="color: var(--ink)"
+                  disabled
+                />
+              </div>
+              <input id="rangeColors" type="range" min="2" max="2" value="2" class="w-full" disabled />
+            </div>
+            <div
+              id="progressWrap"
+              class="hidden h-1.5 w-full overflow-hidden rounded-full"
+              style="background: var(--border)"
+            >
+              <div
+                id="progressBar"
+                class="h-full rounded-full"
+                style="width: 0%; background: var(--accent); transition: width 0.08s linear"
+              ></div>
+            </div>
+            <div
+              id="palette"
+              class="flex max-h-28 flex-wrap content-start gap-1 overflow-y-auto rounded-md p-1"
+              style="border: 1px solid var(--border)"
+            ></div>
+          </section>
+
+          <section class="flex flex-col gap-3">
+            <h2 class="text-sm font-semibold" data-i18n="exportLabel"></h2>
+            <div class="flex items-end gap-2">
+              <label class="flex flex-1 flex-col gap-1 text-xs" style="color: var(--muted)">
+                <span data-i18n="exportMode"></span>
+                <select id="selExport" class="field rounded-md px-2 py-1 text-sm" style="color: var(--ink)">
+                  <option value="full" data-i18n="exportFull"></option>
+                  <option value="cell" data-i18n="exportCell"></option>
+                </select>
+              </label>
+              <button
+                id="btnDownload"
+                class="btn-accent rounded-md px-3 py-1.5 text-sm font-medium"
+                type="button"
+                data-i18n="download"
+                disabled
+              ></button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="flex flex-1 flex-col gap-4 xl:flex-row">
+          <div class="panel flex flex-1 flex-col gap-2 rounded-xl p-3">
+            <div class="flex items-center justify-between px-1">
+              <h3 class="text-sm font-medium" data-i18n="original"></h3>
+              <span
+                id="hintMeasure"
+                class="hidden text-xs"
+                style="color: var(--accent)"
+                data-i18n="measureActive"
+              ></span>
+            </div>
+            <div class="checkerboard relative flex flex-1 items-center justify-center overflow-hidden rounded-lg p-2">
+              <canvas
+                id="canvasOrig"
+                class="pixelated max-h-[70vh] max-w-full touch-none"
+                style="display: none"
+              ></canvas>
+              <canvas id="gridOverlay" class="pointer-events-none absolute inset-0 h-full w-full"></canvas>
+              <p id="emptyOrig" class="text-sm" style="color: var(--muted)" data-i18n="empty"></p>
+            </div>
+          </div>
+
+          <div class="panel flex flex-1 flex-col gap-2 rounded-xl p-3">
+            <div class="flex items-center justify-between px-1">
+              <h3 class="text-sm font-medium" data-i18n="preview"></h3>
+              <span id="stats" class="font-mono text-xs" style="color: var(--muted)"></span>
+            </div>
+            <div class="checkerboard relative flex flex-1 items-center justify-center overflow-hidden rounded-lg p-2">
+              <canvas
+                id="canvasPreview"
+                class="pixelated max-h-[70vh] max-w-full touch-none"
+                style="display: none; cursor: grab"
+              ></canvas>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+  </body>
+</html>
