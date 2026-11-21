@@ -23,6 +23,8 @@ const refineRangeWrap = $<HTMLLabelElement>("refineRangeWrap");
 const refineValue = $<HTMLSpanElement>("refineValue");
 const rangeColors = $<HTMLInputElement>("rangeColors");
 const numColors = $<HTMLInputElement>("numColors");
+const rangeBalance = $<HTMLInputElement>("rangeBalance");
+const balanceValue = $<HTMLSpanElement>("balanceValue");
 const paletteEl = $<HTMLDivElement>("palette");
 const progressWrap = $<HTMLDivElement>("progressWrap");
 const progressBar = $<HTMLDivElement>("progressBar");
@@ -63,6 +65,9 @@ let curYs: number[] = [];
 let hist: ColorCount[] = [];
 let palette: ColorCount[] = [];
 let keepColors = 2;
+// 0 = weight by raw pixel count, 1 = every color counts equally. Higher values
+// stop a dominant color from hoarding palette slots and tinting the result.
+let balance = 0.5;
 let baseBuf: Uint8Array = new Uint8Array(0);
 let finalBuf: Uint8Array = new Uint8Array(0);
 let cols = 0;
@@ -108,6 +113,7 @@ function enableControls(on: boolean): void {
     selSample,
     rangeColors,
     numColors,
+    rangeBalance,
     btnDownload,
   ].forEach((el) => {
     (el as HTMLInputElement).disabled = !on;
@@ -283,7 +289,7 @@ function applyReduction(): void {
   }
   progressBar.style.width = "0%";
   progressWrap.classList.remove("hidden");
-  reducer.postMessage({ id: reduceId, hist, keepCount: keepColors });
+  reducer.postMessage({ id: reduceId, hist, keepCount: keepColors, gamma: 1 - balance });
 }
 
 function uniformEdges(cell: number, n: number): Int32Array {
@@ -613,6 +619,12 @@ numColors.addEventListener("input", () => {
 });
 numColors.addEventListener("change", () => {
   numColors.value = keepColors.toString();
+});
+
+rangeBalance.addEventListener("input", () => {
+  balance = parseInt(rangeBalance.value, 10) / 100;
+  balanceValue.textContent = `${rangeBalance.value}%`;
+  scheduleReduction();
 });
 
 btnDownload.addEventListener("click", () => {

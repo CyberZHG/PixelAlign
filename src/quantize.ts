@@ -40,16 +40,24 @@ function mulberry32(seed: number): () => number {
   };
 }
 
+// A single dominant color (e.g. a large flat background) otherwise hoards
+// palette slots and pulls minority colors into itself, tinting the whole
+// image toward it. Compressing the per-color weight with an exponent < 1
+// keeps the preference for common colors while taming that dominance.
+// 1 = plain pixel-count weighting, 0 = every unique color counts equally.
+const WEIGHT_GAMMA = 0.5;
+
 export function reduceColors(
   hist: ColorCount[],
   keepCount: number,
   onProgress?: (fraction: number) => void,
+  gamma: number = WEIGHT_GAMMA,
 ): Reduction {
   const n = hist.length;
   const k = Math.max(1, Math.min(keepCount, n));
   const maxIter = 24;
   const labs: Lab[] = hist.map((c) => rgbToOklab(c.r, c.g, c.b));
-  const weight = hist.map((c) => c.count);
+  const weight = hist.map((c) => Math.pow(c.count, gamma));
   const report = onProgress ?? (() => {});
   const initStep = Math.max(1, Math.floor(k / 20));
 
@@ -115,7 +123,7 @@ export function reduceColors(
   const clusterWeight = new Float64Array(k);
   for (let i = 0; i < n; i++) {
     const c = assign[i];
-    clusterWeight[c] += weight[i];
+    clusterWeight[c] += hist[i].count;
     const d = oklabDist2(labs[i], centers[c]);
     if (d < repDist[c]) {
       repDist[c] = d;

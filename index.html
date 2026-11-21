@@ -200,6 +200,13 @@
               </div>
               <input id="rangeColors" type="range" min="2" max="2" value="2" class="w-full" disabled />
             </div>
+            <label class="flex flex-col gap-1 text-xs" style="color: var(--muted)">
+              <span
+                ><span data-i18n="balance"></span>:
+                <span id="balanceValue" class="font-mono" style="color: var(--ink)">50%</span></span
+              >
+              <input id="rangeBalance" type="range" min="0" max="100" value="50" class="w-full" disabled />
+            </label>
             <div
               id="progressWrap"
               class="hidden h-1.5 w-full overflow-hidden rounded-full"
